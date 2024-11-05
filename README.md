@@ -6,7 +6,7 @@ A structured system to manage car rentals, customer bookings, and payments, allo
 
 ### Tables
 
-#### 1. `customer_details`
+#### 1. `customers`
 
 | Column Name         | Data Type                   | Constraints                                 |
 | ------------------- | --------------------------- | ------------------------------------------- |
@@ -37,7 +37,7 @@ A structured system to manage car rentals, customer bookings, and payments, allo
 | created_at          | TIMESTAMP      | NOT NULL, DEFAULT CURRENT_TIMESTAMP   |
 | updated_at          | TIMESTAMP      | NULL, on update CURRENT_TIMESTAMP     |
 
-#### 3. `driver_details`
+#### 3. `drivers`
 
 | Column Name         | Data Type   | Constraints                           |
 | ------------------- | ----------- | ------------------------------------- |
@@ -50,7 +50,7 @@ A structured system to manage car rentals, customer bookings, and payments, allo
 | created_at          | TIMESTAMP   | NOT NULL, DEFAULT CURRENT_TIMESTAMP   |
 | updated_at          | TIMESTAMP   | NULL, on update CURRENT_TIMESTAMP     |
 
-#### 4. `booking_details`
+#### 4. `bookings`
 
 | Column Name         | Data Type                                              | Constraints                                           |
 | ------------------- | ------------------------------------------------------ | ----------------------------------------------------- |
@@ -61,7 +61,7 @@ A structured system to manage car rentals, customer bookings, and payments, allo
 | status              | ENUM('Pending', 'Confirmed', 'Cancelled', 'Completed') | NOT NULL                                              |
 | driver_included     | BOOL                                                   | NOT NULL                                              |
 | car_id              | INT                                                    | NOT NULL, FOREIGN KEY REFERENCES car(id)              |
-| customer_id         | INT                                                    | NOT NULL, FOREIGN KEY REFERENCES customer_details(id) |
+| customer_id         | INT                                                    | NOT NULL, FOREIGN KEY REFERENCES customers(id) |
 | actual_return_time  | TIMESTAMP                                              | NULL                                                  |
 | pickup_location_id  | INT                                                    | NOT NULL, FOREIGN KEY REFERENCES locations(id)        |
 | dropoff_location_id | INT                                                    | NOT NULL, FOREIGN KEY REFERENCES locations(id)        |
@@ -77,7 +77,7 @@ A structured system to manage car rentals, customer bookings, and payments, allo
 | latitude    | DECIMAL(10, 8) | NOT NULL                              |
 | longitude   | DECIMAL(11, 8) | NOT NULL                              |
 
-#### 6. `payment_details`
+#### 6. `payments`
 
 | Column Name  | Data Type   | Constraints                                          |
 | ------------ | ----------- | ---------------------------------------------------- |
@@ -87,7 +87,7 @@ A structured system to manage car rentals, customer bookings, and payments, allo
 | paid_amount  | INT         | NOT NULL                                             |
 | total_amount | INT         | NOT NULL                                             |
 | tax_amount   | INT         | NOT NULL                                             |
-| booking_id   | INT         | NOT NULL, FOREIGN KEY REFERENCES booking_details(id) |
+| booking_id   | INT         | NOT NULL, FOREIGN KEY REFERENCES bookings(id) |
 | late_fee     | INT         | NULL                                                 |
 | created_at   | TIMESTAMP   | NOT NULL, DEFAULT CURRENT_TIMESTAMP                  |
 | updated_at   | TIMESTAMP   | NULL, on update CURRENT_TIMESTAMP                    |
@@ -97,9 +97,9 @@ A structured system to manage car rentals, customer bookings, and payments, allo
 | Column Name | Data Type                   | Constraints                                         |
 | ----------- | --------------------------- | --------------------------------------------------- |
 | id          | INT                         | NOT NULL, PRIMARY KEY, AUTO_INCREMENT               |
-| driver_id   | INT                         | NOT NULL, FOREIGN KEY REFERENCES driver_details(id) |
+| driver_id   | INT                         | NOT NULL, FOREIGN KEY REFERENCES drivers(id) |
 | car_id      | INT                         | NOT NULL, FOREIGN KEY REFERENCES car(id)            |
-| booking_id  | INT                         | NULL, FOREIGN KEY REFERENCES booking_details(id)    |
+| booking_id  | INT                         | NULL, FOREIGN KEY REFERENCES bookings(id)    |
 | driver_type | ENUM('customer', 'company') | NOT NULL, COMMENT 'Driver type'                     |
 | created_at  | TIMESTAMP                   | NOT NULL, DEFAULT CURRENT_TIMESTAMP                 |
 | updated_at  | TIMESTAMP                   | NULL, on update CURRENT_TIMESTAMP                   |
@@ -116,17 +116,8 @@ A structured system to manage car rentals, customer bookings, and payments, allo
 | created_at  | TIMESTAMP    | NOT NULL, DEFAULT CURRENT_TIMESTAMP        |
 | updated_at  | TIMESTAMP    | NULL, on update CURRENT_TIMESTAMP          |
 
-#### 9. `booking_confirmations`
 
-| Column Name       | Data Type | Constraints                                          |
-| ----------------- | --------- | ---------------------------------------------------- |
-| id                | INT       | NOT NULL, PRIMARY KEY, AUTO_INCREMENT                |
-| booking_id        | INT       | NOT NULL, FOREIGN KEY REFERENCES booking_details(id) |
-| admin_user_id     | INT       | NOT NULL, FOREIGN KEY REFERENCES users(id)           |
-| confirmation_time | TIMESTAMP | NOT NULL, DEFAULT CURRENT_TIMESTAMP                  |
-| notes             | TEXT      | NULL                                                 |
-
-#### 10. `roles`
+#### 9. `roles`
 
 | Column Name | Data Type   | Constraints                           |
 | ----------- | ----------- | ------------------------------------- |
@@ -144,12 +135,12 @@ A structured system to manage car rentals, customer bookings, and payments, allo
 
 ### 2. Customer Registration
 
--   Information like identification, contact details, etc., is stored in `customer_details`.
+-   Information like identification, contact details, etc., is stored in `customers`.
 
 ### 3. Booking Process
 
 -   Customers select a car, specify rental dates and locations.
--   Total amount is calculated and recorded in `booking_details`.
+-   Total amount is calculated and recorded in `bookings`.
 
 ### 4. Driver Assignment (Optional)
 
@@ -157,21 +148,17 @@ A structured system to manage car rentals, customer bookings, and payments, allo
 
 ### 5. Payment Process
 
--   Payment is processed, and `payment_details` is updated with payment status.
+-   Payment is processed, and `payments` is updated with payment status.
 
-### 6. Booking Confirmation
-
--   Admin confirms booking, recorded in `booking_confirmations`.
-
-### 7. Car Rental Period
+### 6. Car Rental Period
 
 -   Customer picks up and returns car as per scheduled times and locations.
 
-### 8. Post-Rental Processing
+### 7. Post-Rental Processing
 
 -   Late fees, damages, and return data are recorded as needed.
 
-### 9. Admin Management
+### 8. Admin Management
 
 -   Admins manage bookings, view records, and handle operations through the admin panel.
 
