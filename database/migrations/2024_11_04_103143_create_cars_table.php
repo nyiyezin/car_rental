@@ -23,9 +23,10 @@ class CreateCarsTable extends Migration
             $table->integer('passenger_capacity');
             $table->integer('daily_rate');
             $table->integer('late_fee_per_hour');
-            $table->boolean('is_available');
-            $table->timestamps();
             $table->decimal('rate_per_kilometer', 10, 2)->nullable();
+            $table->boolean('is_available');
+            $table->softDeletes();
+            $table->timestamps();
         });
     }
 

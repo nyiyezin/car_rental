@@ -20,6 +20,7 @@ class CreateDriversTable extends Migration
             $table->string('license_number', 255)->unique();
             $table->string('phone_number', 255);
             $table->boolean('is_available');
+            $table->softDeletes();
             $table->timestamps();
         });
     }

@@ -15,16 +15,12 @@ class CreateBookingsTable extends Migration
     {
         Schema::create('bookings', function (Blueprint $table) {
             $table->id();
-            $table->timestamp('rental_start_time');
-            $table->timestamp('rental_end_time');
-            $table->decimal('total_amount', 10, 4);
-            $table->enum('status', ['Pending', 'Confirmed', 'Cancelled', 'Completed']);
-            $table->boolean('driver_included');
-            $table->foreignId('car_id')->constrained('cars')->onDelete('cascade');
-            $table->foreignId('customer_id')->constrained('customers')->onDelete('cascade');
-            $table->foreignId('staff_id')->nullable()->constrained('users')->onDelete('set null');
-            $table->foreignId('pickup_location_id')->constrained('locations')->onDelete('cascade');
-            $table->foreignId('dropoff_location_id')->constrained('locations')->onDelete('cascade');
+            $table->string('booking_token', 64)->unique();
+            $table->timestamp('rental_start_date')->nullable();
+            $table->timestamp('rental_end_date')->nullable();
+            $table->enum('status', ['pending', 'confirmed', 'cancelled', 'completed']);
+            $table->boolean('is_driver_included')->nullable();
+            $table->softDeletes();
             $table->timestamps();
         });
     }

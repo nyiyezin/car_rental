@@ -3,11 +3,12 @@
 namespace App;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Payment extends Model
 {
-    public function booking()
-    {
-        return $this->belongsTo(Booking::class);
-    }
+
+    use SoftDeletes;
+
+    protected $dates = ['deleted_at'];
 }
