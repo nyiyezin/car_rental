@@ -28,6 +28,7 @@ class DatabaseSeeder extends Seeder
         $users = [];
         for ($i = 0; $i < 10; $i++) {
             $users[] = [
+                'name' => $faker->name(),
                 'username' => 'user_' . $i,
                 'password' => Hash::make('password'),
                 'email' => "user{$i}@example.com",
