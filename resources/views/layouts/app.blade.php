@@ -13,6 +13,11 @@
     @include('partials.home-navigation')
     <main class="shell">
         @yield('content')
+        <div class="authentication">
+            <div class="authentication__form">
+                @yield('authentication')
+            </div>
+        </div>
     </main>
     <script src="{{ mix('js/app.js') }}"></script>
     @stack('scripts')

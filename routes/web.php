@@ -1,5 +1,8 @@
 <?php
 
+use App\Http\Controllers\Admin\AdminDashboardController;
+use App\Http\Controllers\Auth\RegisterController;
+use App\Http\Controllers\Auth\SessionsController;
 use App\Http\Controllers\CreateBookingController;
 use App\Http\Controllers\DownloadInvoiceController;
 use App\Http\Controllers\GetInvoiceController;
@@ -19,11 +22,32 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/', [ShowAvailableCarsController::class, '__invoke'])->name('cars.index');
+Route::get('/', [ShowAvailableCarsController::class, '__invoke'])
+    ->name('cars.index');
 Route::prefix('booking')->group(function () {
-    Route::post('/start-booking', [StartBookingController::class, '__invoke'])->name('startBooking');
-    Route::get('/create-booking', [CreateBookingController::class, '__invoke'])->name('createBooking');
-    Route::post('/store-booking', [StoreBookingController::class, '__invoke'])->name('storeBooking');
-    Route::get('/get-invoice/{bookingToken}', [GetInvoiceController::class, '__invoke'])->name('getInvoice');
-    Route::get('/download-invoice/{bookingToken}', [DownloadInvoiceController::class, '__invoke'])->name('downloadInvoice');
+    Route::post('/start-booking', [StartBookingController::class, '__invoke'])
+        ->name('startBooking');
+    Route::get('/create-booking', [CreateBookingController::class, '__invoke'])
+        ->name('createBooking');
+    Route::post('/store-booking', [StoreBookingController::class, '__invoke'])
+        ->name('storeBooking');
+    Route::get('/get-invoice/{bookingToken}', [GetInvoiceController::class, '__invoke'])
+        ->name('getInvoice');
+    Route::get('/download-invoice/{bookingToken}', [DownloadInvoiceController::class, '__invoke'])
+        ->name('downloadInvoice');
+});
+Route::middleware('guest')->group(function () {
+    Route::get('register', [RegisterController::class, 'create'])
+        ->name('registerCreate');
+    Route::post('register', [RegisterController::class, 'store'])
+        ->name('registerStore');
+    Route::get('login', [SessionsController::class, 'create'])
+        ->name('sessionCreate');
+    Route::post('login', [SessionsController::class, 'store'])
+        ->name('sessionStore');
+});
+Route::middleware('admin')->group(function () {
+    Route::prefix('admin')->group(function () {
+        Route::get('/dashboard', [AdminDashboardController::class, '__invoke'])->name('adminDashboard');
+    });
 });

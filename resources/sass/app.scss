@@ -1,3 +1,10 @@
 @import "~bootstrap/scss/bootstrap";
-@import "./custom.scss";
 @import "flatpickr/dist/flatpickr.css";
+/*** DataTables ***/
+@import url("https://cdn.datatables.net/2.1.8/css/dataTables.dataTables.css");
+/*** Customer ***/
+@import url("./customer.scss");
+/*** Authentication ***/
+@import url("./authentication.scss");
+/*** Admin ***/
+@import url('./admin/dashboard.scss');
