@@ -3,11 +3,12 @@
 namespace App\Repositories;
 
 use App\Car;
+use App\Image;
 use App\Repositories\Interfaces\CarRepositoryInterface;
 
 class CarRepository implements CarRepositoryInterface
 {
-    public function getAllCars(array $filters)
+    public function getAllCars(array $filters = [])
     {
         return Car::query()->filter($filters)->paginate(9);
     }
@@ -32,6 +33,18 @@ class CarRepository implements CarRepositoryInterface
         $car->rate_per_kilometer = $data['rate_per_kilometer'] ?? null;
         $car->save();
 
+        if (empty($data['images']) || !is_array($data['images'])) {
+            return $car;
+        }
+
+        foreach ($data['images'] as $image) {
+            $filePath = $image->store('public/images');
+            Image::query()->create([
+                'car_id' => $car->id,
+                'file_path' => $filePath,
+            ]);
+        }
+
         return $car;
     }
 
@@ -47,8 +60,28 @@ class CarRepository implements CarRepositoryInterface
         $car->late_fee_per_hour = $data['late_fee_per_hour'];
         $car->is_available = $data['is_available'];
         $car->rate_per_kilometer = $data['rate_per_kilometer'] ?? null;
-
         $car->save();
+
+        if (empty($data['images']) || !is_array($data['images'])) {
+            return $car;
+        }
+
+        $currentImages = $car->images->pluck('id')->toArray();
+
+        foreach ($data['images'] as $image) {
+            $filePath = $image->store('public/images');
+            Image::query()->create([
+                'car_id' => $car->id,
+                'file_path' => $filePath,
+            ]);
+        }
+
+        $newImages = array_map(fn($image) => $image->id, $data['images']);
+        $deletedImages = array_diff($currentImages, $newImages);
+
+        if ($deletedImages) {
+            Image::query()->where('id', $deletedImages)->delete();
+        }
 
         return $car;
     }

@@ -59,4 +59,9 @@ class Car extends Model
             ->belongsToMany(Driver::class, 'driver_car_histories')
             ->withPivot(['driver_type']);
     }
+
+    public function images()
+    {
+        return $this->hasMany(Image::class);
+    }
 }
