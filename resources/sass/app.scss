@@ -1,10 +1,9 @@
-@import "~bootstrap/scss/bootstrap";
-@import "flatpickr/dist/flatpickr.css";
-/*** DataTables ***/
+@use './components/customer' as *;
+@use './components/authentication' as *;
+@use './components/car-listing.scss' as *;
+@use './admin/dashboard' as *;
+@use './admin/createCar.scss' as *;
+@use "~bootstrap/scss/bootstrap" as *;
+@use "flatpickr/dist/flatpickr" as *;
+
 @import url("https://cdn.datatables.net/2.1.8/css/dataTables.dataTables.css");
-/*** Customer ***/
-@import url("./customer.scss");
-/*** Authentication ***/
-@import url("./authentication.scss");
-/*** Admin ***/
-@import url('./admin/dashboard.scss');

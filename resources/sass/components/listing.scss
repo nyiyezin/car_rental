@@ -1,0 +1,48 @@
+.listing {
+    padding: 20px;
+    margin-bottom: 30px;
+    background: $white;
+    border-radius: 7px;
+
+    .listing-img {
+        width: 100%;
+        margin-left: 0px;
+        margin-top: -40px;
+        margin-bottom: 30px;
+
+        img {
+            border-radius: 7px;
+            box-shadow: 0 15px 30px 0 rgba($black, .1);
+        }
+    }
+
+    .listing-contents {
+        h3 {
+            font-size: 18px;
+            font-weight: 900;
+        }
+
+        .rent-price {
+            strong {
+                color: $primary;
+                font-size: 18px;
+            }
+        }
+
+        .listing-feature {
+            .number {
+                color: #888;
+            }
+        }
+
+        .caption {
+            color: $black;
+            margin-right: 10px;
+        }
+    }
+
+    p {
+        color: #888;
+        font-size: 14px;
+    }
+}

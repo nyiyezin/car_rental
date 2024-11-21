@@ -17,6 +17,7 @@ class AdminMiddleware
     public function handle($request, Closure $next, $guard = null)
     {
         if (!Auth::guard($guard)->check()) {
+            return redirect()->route('sessionCreate');
             if (Auth::user()->role_id === 1) {
                 return redirect()->route('adminDashboard');
             }

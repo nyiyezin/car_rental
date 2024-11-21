@@ -1,0 +1,77 @@
+.upload {
+    background-color: hsl(0, 0%, 95%);
+    padding: 0.5rem;
+    border-radius: 0.5rem;
+
+    &__button-wrapper {
+        margin-bottom: 1rem;
+    }
+
+    &__button {
+        position: relative;
+        cursor: pointer;
+        transition: all 0.3s ease;
+
+        &:hover {
+            background-color: transparent;
+            color: #0d6efd;
+        }
+    }
+
+    &__input {
+        display: none;
+    }
+
+    &__preview {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 0.5rem;
+    }
+
+    &__preview-item {
+        position: relative;
+        width: 150px;
+        height: 150px;
+        background-repeat: no-repeat;
+        background-position: center;
+        background-size: cover;
+        border-radius: 0.5rem;
+        overflow: hidden;
+
+        &::before {
+            content: '';
+            display: block;
+            padding-top: 100%;
+        }
+    }
+
+    &__remove-button {
+        position: absolute;
+        top: 8px;
+        right: 8px;
+        width: 24px;
+        height: 24px;
+        background-color: rgba(0, 0, 0, 0.6);
+        color: #fff;
+        font-size: 0.8rem;
+        border: none;
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        cursor: pointer;
+        transition: background-color 0.3s ease;
+
+        &:hover {
+            background-color: rgba(255, 0, 0, 0.8);
+        }
+    }
+}
+
+.img-bg {
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: cover;
+    position: relative;
+    padding-bottom: 100%;
+}

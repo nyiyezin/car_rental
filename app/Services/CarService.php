@@ -49,7 +49,8 @@ class CarService
             'late_fee_per_hour' => 'required|integer|min:0',
             'is_available' => 'required|boolean',
             'rate_per_kilometer' => 'nullable|numeric|min:0',
-            'images.*' => 'images|mimes:jpeg,png,jpg,gif|max:2048'
+            'images' => 'nullable|array',
+            'images.*' => 'image|mimes:jpeg,png,jpg,gif|max:2048'
         ]);
 
         if ($validator->fails()) {

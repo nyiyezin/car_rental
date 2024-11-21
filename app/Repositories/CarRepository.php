@@ -10,12 +10,23 @@ class CarRepository implements CarRepositoryInterface
 {
     public function getAllCars(array $filters = [])
     {
-        return Car::query()->filter($filters)->paginate(9);
+        return Car::query()->with('images')->filter($filters)->paginate(9);
     }
 
     public function getCarByColumn(string $column, $value): Car
     {
-        return Car::query()->where($column, $value)->firstOrFail();
+        return Car::query()->where($column, $value)->with('images')->firstOrFail();
+    }
+
+    private function handleImages($car, array $images)
+    {
+        foreach ($images as $uploadedImage) {
+            $filePath = $uploadedImage->store('public/images');
+            $image = new Image();
+            $image->car_id = $car->id;
+            $image->file_path = $filePath;
+            $image->save();
+        }
     }
 
     public function createCar(array $data)
@@ -33,19 +44,11 @@ class CarRepository implements CarRepositoryInterface
         $car->rate_per_kilometer = $data['rate_per_kilometer'] ?? null;
         $car->save();
 
-        if (empty($data['images']) || !is_array($data['images'])) {
-            return $car;
+        if (!empty($data['images']) && is_array($data['images'])) {
+            $this->handleImages($car, $data['images']);
         }
 
-        foreach ($data['images'] as $image) {
-            $filePath = $image->store('public/images');
-            Image::query()->create([
-                'car_id' => $car->id,
-                'file_path' => $filePath,
-            ]);
-        }
-
-        return $car;
+        return $car->load('images');
     }
 
     public function updateCar(int $id, array $data)
@@ -62,28 +65,11 @@ class CarRepository implements CarRepositoryInterface
         $car->rate_per_kilometer = $data['rate_per_kilometer'] ?? null;
         $car->save();
 
-        if (empty($data['images']) || !is_array($data['images'])) {
-            return $car;
+        if (!empty($data['images']) && is_array($data['images'])) {
+            $this->handleImages($car, $data['images']);
         }
 
-        $currentImages = $car->images->pluck('id')->toArray();
-
-        foreach ($data['images'] as $image) {
-            $filePath = $image->store('public/images');
-            Image::query()->create([
-                'car_id' => $car->id,
-                'file_path' => $filePath,
-            ]);
-        }
-
-        $newImages = array_map(fn($image) => $image->id, $data['images']);
-        $deletedImages = array_diff($currentImages, $newImages);
-
-        if ($deletedImages) {
-            Image::query()->where('id', $deletedImages)->delete();
-        }
-
-        return $car;
+        return $car->load('images');
     }
 
     public function removeCar(int $id)

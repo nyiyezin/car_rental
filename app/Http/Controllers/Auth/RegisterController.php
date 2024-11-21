@@ -25,7 +25,6 @@ class RegisterController extends Controller
         ]);
 
         $user = User::query()->create($attributes);
-
         Auth::login($user);
 
         return redirect()->route('adminDashboard')->with('success', 'Your account has been created.');

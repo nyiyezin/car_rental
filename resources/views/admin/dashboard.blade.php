@@ -2,6 +2,11 @@
 
 @section('content')
     <div class="container-fluid">
+        <div class="row">
+            <div class="col-md-4 me-auto">
+                <a class="link-item" href="{{ route('adminCarCreate') }}">Create New Car</a>
+            </div>
+        </div>
         <table class="display" id="myTable">
             <thead>
                 <tr>

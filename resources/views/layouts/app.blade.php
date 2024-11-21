@@ -13,12 +13,9 @@
     @include('partials.home-navigation')
     <main class="shell">
         @yield('content')
-        <div class="authentication">
-            <div class="authentication__form">
-                @yield('authentication')
-            </div>
-        </div>
     </main>
+    <x-session />
+    <script src="https://kit.fontawesome.com/19d660dcf4.js" crossorigin="anonymous"></script>
     <script src="{{ mix('js/app.js') }}"></script>
     @stack('scripts')
 </body>

@@ -4,6 +4,7 @@ use App\Http\Controllers\Admin\AdminDashboardController;
 use App\Http\Controllers\Auth\RegisterController;
 use App\Http\Controllers\Auth\SessionsController;
 use App\Http\Controllers\CreateBookingController;
+use App\Http\Controllers\CreateCarController;
 use App\Http\Controllers\DownloadInvoiceController;
 use App\Http\Controllers\GetInvoiceController;
 use App\Http\Controllers\ShowAvailableCarsController;
@@ -49,5 +50,7 @@ Route::middleware('guest')->group(function () {
 Route::middleware('admin')->group(function () {
     Route::prefix('admin')->group(function () {
         Route::get('/dashboard', [AdminDashboardController::class, '__invoke'])->name('adminDashboard');
+        Route::get('/create-car', [CreateCarController::class, 'create'])->name('adminCarCreate');
+        Route::post('/create-car', [CreateCarController::class, 'store'])->name('adminCarStore');
     });
 });

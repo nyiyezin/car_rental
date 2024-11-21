@@ -8,7 +8,6 @@
     <link href="https://cdn.datatables.net/2.1.8/css/dataTables.dataTables.css" rel="stylesheet" />
     <link href="{{ mix('css/app.css') }}" rel="stylesheet">
     <title>Car Rental Dashboard</title>
-
 </head>
 
 <body>
@@ -21,9 +20,10 @@
             </main>
         </div>
     </div>
-
+    <x-session />
     <script src="https://kit.fontawesome.com/19d660dcf4.js" crossorigin="anonymous"></script>
     <script src="{{ mix('js/app.js') }}"></script>
+    @stack('scripts')
 </body>
 
 </html>

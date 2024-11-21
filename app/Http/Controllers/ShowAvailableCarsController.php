@@ -32,12 +32,8 @@ class ShowAvailableCarsController extends Controller
             ->toArray();
         $filters['carAvailability'] = 'available';
         $cars = $this->carService->getAllCars($filters);
-        $filtersOptions = $this->carService->getFilterOptions();
+        $filterOptions = $this->carService->getFilterOptions();
 
-        return view('car.index', [
-            'cars' => $cars,
-            'filters' => $filters,
-            'filterOptions' => $filtersOptions
-        ]);
+        return view('car.index', compact('cars', 'filters', 'filterOptions'));
     }
 }
