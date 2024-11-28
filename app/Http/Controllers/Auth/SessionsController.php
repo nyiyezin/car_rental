@@ -29,7 +29,7 @@ class SessionsController extends Controller
 
         session()->regenerate();
 
-        return redirect('/')->with('success', 'Welcome Back!');
+        return redirect()->route('adminDashboard')->with('success', 'Welcome Back!');
     }
 
 
