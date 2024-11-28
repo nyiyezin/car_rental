@@ -47,7 +47,7 @@ class CarService
             'passenger_capacity' => 'required|integer|min:1',
             'daily_rate' => 'required|integer|min:1',
             'late_fee_per_hour' => 'required|integer|min:0',
-            'is_available' => 'required|boolean',
+            'is_available' => 'nullable|boolean',
             'rate_per_kilometer' => 'nullable|numeric|min:0',
             'images' => 'nullable|array',
             'images.*' => 'image|mimes:jpeg,png,jpg,gif|max:2048'
@@ -70,9 +70,11 @@ class CarService
             'passenger_capacity' => 'required|integer|min:1',
             'daily_rate' => 'required|integer|min:1',
             'late_fee_per_hour' => 'required|integer|min:0',
-            'is_available' => 'required|boolean',
+            'is_available' => 'nullable|boolean',
             'rate_per_kilometer' => 'nullable|numeric|min:0',
-            'images.*' => 'images|mimes:jpeg,png,jpg,gif|max:2048'
+            'images' => 'nullable|array',
+            'images.*' => 'image|mimes:jpeg,png,jpg,gif,webp|max:2048',
+            'removed_image_ids' => 'nullable|json',
         ]);
 
         if ($validator->fails()) {

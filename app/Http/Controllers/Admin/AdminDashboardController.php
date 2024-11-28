@@ -9,7 +9,6 @@ use App\Services\CarService;
 use App\Services\CustomerService;
 use App\Services\LocationService;
 use App\Services\PaymentService;
-use Illuminate\Http\Request;
 
 class AdminDashboardController extends Controller
 {

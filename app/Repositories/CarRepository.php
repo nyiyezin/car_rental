@@ -5,6 +5,7 @@ namespace App\Repositories;
 use App\Car;
 use App\Image;
 use App\Repositories\Interfaces\CarRepositoryInterface;
+use Illuminate\Support\Facades\Storage;
 
 class CarRepository implements CarRepositoryInterface
 {
@@ -21,7 +22,7 @@ class CarRepository implements CarRepositoryInterface
     private function handleImages($car, array $images)
     {
         foreach ($images as $uploadedImage) {
-            $filePath = $uploadedImage->store('public/images');
+            $filePath = $uploadedImage->store('images', 'public');
             $image = new Image();
             $image->car_id = $car->id;
             $image->file_path = $filePath;
@@ -40,7 +41,7 @@ class CarRepository implements CarRepositoryInterface
         $car->passenger_capacity = $data['passenger_capacity'];
         $car->daily_rate = $data['daily_rate'];
         $car->late_fee_per_hour = $data['late_fee_per_hour'];
-        $car->is_available = $data['is_available'];
+        $car->is_available = $data['is_available'] ?? false;
         $car->rate_per_kilometer = $data['rate_per_kilometer'] ?? null;
         $car->save();
 
@@ -54,6 +55,7 @@ class CarRepository implements CarRepositoryInterface
     public function updateCar(int $id, array $data)
     {
         $car = $this->getCarByColumn('id', $id);
+
         $car->model_name = $data['model_name'];
         $car->model_year = $data['model_year'];
         $car->total_kilometers = $data['total_kilometers'];
@@ -61,12 +63,28 @@ class CarRepository implements CarRepositoryInterface
         $car->passenger_capacity = $data['passenger_capacity'];
         $car->daily_rate = $data['daily_rate'];
         $car->late_fee_per_hour = $data['late_fee_per_hour'];
-        $car->is_available = $data['is_available'];
+        $car->is_available = $data['is_available'] ?? false;
         $car->rate_per_kilometer = $data['rate_per_kilometer'] ?? null;
         $car->save();
 
+        if (!empty($data['removed_image_ids'])) {
+            $removedImageIds = json_decode($data['removed_image_ids'], true);
+            $car->images()->whereIn('id', $removedImageIds)->each(function ($image) {
+                Storage::disk('public')->delete($image->file_path);
+                $image->delete();
+            });
+        }
+
         if (!empty($data['images']) && is_array($data['images'])) {
-            $this->handleImages($car, $data['images']);
+            foreach ($data['images'] as $uploadedImage) {
+                if ($uploadedImage instanceof \Illuminate\Http\UploadedFile) {
+                    $filePath = $uploadedImage->store('images', 'public');
+                    $image = new Image();
+                    $image->car_id = $car->id;
+                    $image->file_path = $filePath;
+                    $image->save();
+                }
+            }
         }
 
         return $car->load('images');

@@ -1,10 +1,10 @@
 <?php
 
 use App\Http\Controllers\Admin\AdminDashboardController;
+use App\Http\Controllers\Admin\AdminCarController;
 use App\Http\Controllers\Auth\RegisterController;
 use App\Http\Controllers\Auth\SessionsController;
 use App\Http\Controllers\CreateBookingController;
-use App\Http\Controllers\CreateCarController;
 use App\Http\Controllers\DownloadInvoiceController;
 use App\Http\Controllers\GetInvoiceController;
 use App\Http\Controllers\ShowAvailableCarsController;
@@ -50,7 +50,10 @@ Route::middleware('guest')->group(function () {
 Route::middleware('admin')->group(function () {
     Route::prefix('admin')->group(function () {
         Route::get('/dashboard', [AdminDashboardController::class, '__invoke'])->name('adminDashboard');
-        Route::get('/create-car', [CreateCarController::class, 'create'])->name('adminCarCreate');
-        Route::post('/create-car', [CreateCarController::class, 'store'])->name('adminCarStore');
+        Route::get('/create-car', [AdminCarController::class, 'create'])->name('adminCarCreate');
+        Route::post('/create-car', [AdminCarController::class, 'store'])->name('adminCarStore');
+        Route::get('/edit-car/{car}/', [AdminCarController::class, 'editModal'])->name('adminCarEditModal');
+        Route::put('/update-car/{id}', [AdminCarController::class, 'update'])->name('adminCarUpdate');
+        Route::delete('/delete-car/{id}', [AdminCarController::class, 'destroy'])->name('adminCarDestroy');
     });
 });

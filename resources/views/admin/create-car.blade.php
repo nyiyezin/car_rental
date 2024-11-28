@@ -16,7 +16,7 @@
 
             <div class="col-md-6">
                 <div class="mb-3">
-                    <x-form.input name="total_kilometers" label="Total Kilometers" :value="old('total_kilometers')" />
+                    <x-form.input name="total_kilometers" type="number" label="Total Kilometers" :value="old('total_kilometers')" />
                 </div>
 
             </div>
@@ -55,30 +55,42 @@
             </div>
 
             <div class="col-md-6">
-                <x-form.input name="daily_rate" label="Car Daily Rate" :value="old('daily_rate')" />
+                <x-form.input name="daily_rate" type="number" label="Car Daily Rate" :value="old('daily_rate')" />
             </div>
             <div class="col-md-6">
-                <x-form.input name="late_fee_per_hour" label="Late Fee Per Hour" :value="old('late_fee_per_hour')" />
+                <x-form.input name="late_fee_per_hour" type="number" label="Late Fee Per Hour" :value="old('late_fee_per_hour')" />
             </div>
 
             <div class="col-md-6">
-                <x-form.input name="rate_per_kilometer" label="Rate Per Kilometer" :value="old('rate_per_kilometer')" />
+                <x-form.input name="rate_per_kilometer" type="number" label="Rate Per Kilometer" :value="old('rate_per_kilometer')" />
             </div>
             <div class="col-md-6">
                 <x-form.checkbox name="is_available" label="Is Car Available For Now?" :checked="old('is_available') === 1" />
             </div>
 
-            <div class="upload">
+            <div class="upload" id="carImageUpload">
                 <div class="upload__button-wrapper mb-3">
                     <label class="upload__button btn btn-secondary">
                         <span class="upload__button-text">Upload images</span>
                         <input class="upload__input d-none" name="images[]" data-max-length="20" type="file" multiple>
                     </label>
                 </div>
-                <div class="upload__preview d-flex flex-wrap gap-2"></div>
+                <div class="upload__preview d-flex flex-wrap gap-2">
+                    @if ($errors->has('images'))
+                        <span class="text-danger">{{ $errors->first('images') }}</span>
+                    @endif
+                </div>
             </div>
 
             <button class="btn btn-primary" type="submit">Create Car</button>
         </form>
     </div>
 @endsection
+@push('scripts')
+    <script>
+        const $carImageUploadContainer = $("#carImageUpload");
+        if ($carImageUploadContainer.length) {
+            initializeImageUpload($carImageUploadContainer);
+        }
+    </script>
+@endpush
