@@ -2,8 +2,10 @@
 
 @use "./components/customer" as *;
 @use "./components/authentication" as *;
-@use "./components/car-listing.scss" as *;
 @use "./admin/dashboard" as *;
 @use "./admin/createCar.scss" as *;
+@use "./view.scss" as *;
+@use "./components/header.scss";
+@use "./components/car-listing.scss";
 
 @import "flatpickr/dist/flatpickr.min.css";

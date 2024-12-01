@@ -39,7 +39,7 @@ Route::prefix('booking')->group(function () {
 });
 Route::middleware('guest')->group(function () {
     Route::get('register', [RegisterController::class, 'create'])
-        ->name('registerCreate');
+    ->name('registerCreate');
     Route::post('register', [RegisterController::class, 'store'])
         ->name('registerStore');
     Route::get('login', [SessionsController::class, 'create'])
