@@ -96,12 +96,16 @@
 }
 
 .featured-car-card .card-list {
-    display: grid;
-    grid-template-columns: 1fr;
-    gap: 15px;
-    padding-bottom: 15px;
+    margin-bottom: 1rem;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1rem;
+    padding: 0.5rem;
     border-bottom: 1px solid hsla(0, 0%, 0%, 0.1);
-    margin-bottom: 15px;
+}
+
+.featured-car-card .card-list > * {
+    flex: 1;
 }
 
 .featured-car-card .card-list-item {

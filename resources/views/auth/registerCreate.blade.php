@@ -7,7 +7,7 @@
                 @csrf
                 <h1 class="h3 fw-normal mb-3">Please sign up</h1>
 
-                <input name="role_id" type="hidden" value="1">
+                <input name="role_id" type="hidden" value="2">
 
                 <div class="mb-3">
                     <x-form.input name="name" label="Name" />

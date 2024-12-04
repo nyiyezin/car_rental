@@ -16,7 +16,7 @@
                 </div>
 
                 <div class="d-flex justify-content-between mb-3">
-                    <x-form.checkbox name="remember_me" label="Remember Me" />
+                    <div></div>
                     <a class="link-item" href="{{ route('registerCreate') }}">
                         Create New Account?
                     </a>

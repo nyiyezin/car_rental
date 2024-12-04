@@ -25,19 +25,15 @@ class DatabaseSeeder extends Seeder
         ];
         Role::insert($roles);
 
-        $users = [];
-        for ($i = 0; $i < 10; $i++) {
-            $users[] = [
-                'name' => $faker->name(),
-                'username' => 'user_' . $i,
-                'password' => Hash::make('password'),
-                'email' => "user{$i}@example.com",
-                'role_id' => rand(1, 2),
-                'created_at' => now(),
-                'updated_at' => now(),
-            ];
-        }
-        User::insert($users);
+        User::query()->create([
+            'name' => 'Nyi Ye Zin',
+            'username' => 'nyiyezin',
+            'email' => 'nyiyezin11@gmail.com',
+            'password' => 'password',
+            'role_id' => 1,
+            'created_at' => now(),
+            'updated_at' => now(),
+        ]);
 
         $customers = [];
         for ($i = 0; $i < 50; $i++) {

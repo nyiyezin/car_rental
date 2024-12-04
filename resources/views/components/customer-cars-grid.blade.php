@@ -62,24 +62,6 @@
 
                                     <span class="card-item-text">{{ $car->passenger_capacity }}</span>
                                 </li>
-
-                                <li class="card-list-item">
-                                    <ion-icon name="flash-outline"></ion-icon>
-
-                                    <span class="card-item-text">Hybrid</span>
-                                </li>
-
-                                <li class="card-list-item">
-                                    <ion-icon name="speedometer-outline"></ion-icon>
-
-                                    <span class="card-item-text">6.1km / 1-litre</span>
-                                </li>
-
-                                <li class="card-list-item">
-                                    <ion-icon name="hardware-chip-outline"></ion-icon>
-                                    <span class="card-item-text">Automatic</span>
-                                </li>
-
                             </ul>
 
                             <div class="card-price-wrapper">
